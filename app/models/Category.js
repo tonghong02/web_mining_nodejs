@@ -4,4 +4,4 @@ var categorySchema = new mongoose.Schema({
     name: String
 });
 
-module.exports = mongoose.model('Categories', categorySchema);
+module.exports = mongoose.model('Category', categorySchema);

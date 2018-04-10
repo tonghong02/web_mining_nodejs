@@ -6,8 +6,13 @@ var historySchema = new mongoose.Schema({
         ref: 'Movie',
         trim: true,
         required: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        trim: true,
+        required: true
     }
-
 });
 
-module.exports = mongoose.model('Histories', movieSchema);
+module.exports = mongoose.model('History', historySchema);

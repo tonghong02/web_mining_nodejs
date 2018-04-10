@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var movieSchema = new mongoose.Schema({
-    name: String,
     title: String,
     year: String,
     imdb: Number,
@@ -24,4 +23,4 @@ var movieSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Countries', movieSchema);
+module.exports = mongoose.model('Movie', movieSchema);

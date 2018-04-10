@@ -1,33 +1,28 @@
-// app/models/user.js
 // load the things we need
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
+// var User = schemas.User;
+// User
+//  .find()
+//  .populate('friends')
+//  .exec(...)
+
 // define the schema for our user model
 var userSchema = new mongoose.Schema({
-
-    local: {
-        email: String,
-        password: String,
-        username: String,
-        address: String,
-        name: String,
-        Sex: String,
-        history: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'History',
-            trim: true,
-            required: true
-        },
-    }
-    // facebook         : {
-    //     id           : String,
-    //     token        : String,
-    //     email        : String,
-    //     name         : String
-    // }
+    email: String,
+    password: String,
+    username: String,
+    address: String,
+    name: String,
+    Sex: String,
+    birth: Number,
 });
 
+// userSchema.pre('save', function(next){
+//     this.local.movie = this.local.movie.map(function(option) { return option._id; });
+//     next();
+//   });
 // methods ======================
 // generating a hash
 userSchema.methods.generateHash = function (password) {
@@ -40,4 +35,4 @@ userSchema.methods.validPassword = function (password) {
 };
 
 // create the model for users and expose it to our app
-module.exports = mongoose.model('Users', userSchema);
+module.exports = mongoose.model('User', userSchema);
