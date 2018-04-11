@@ -8,18 +8,21 @@ var movieSchema = new mongoose.Schema({
         default: 0,
         type: Number
     },
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        trim: true,
-        required: true
-    },
-    country: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Country',
-        trim: true,
-        required: true
-    }
+    country: { type: String, lowercase: true, trim: true },
+    category: { type: String, lowercase: true, trim: true },
+
+    // category: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Category',
+    //     trim: true,
+    //     required: true
+    // },
+    // country: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Country',
+    //     trim: true,
+    //     required: true
+    // }
 
 });
 

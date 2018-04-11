@@ -6,13 +6,10 @@ var async = require('async');
 var Movie = require('../models/Movie')
 
 function getMovies(res) {
-    Movie.find({})
-        .populate("category")
-        .populate("country")
-        .exec((err, data) => {
-            if (err) return res.status(500).json(err);
-            res.json(data);
-        })
+    Movie.find({}, (err, data) => {
+        if (err) return res.status(500).json(err);
+        res.json(data);
+    })
 }
 
 // = = = = = = = = 
@@ -29,30 +26,28 @@ exports.getList = function (req, res, next) {
         where.imdb = imdb;
     }
     if (title) {
-        where.title = title;
+        where.title = title.toLowerCase();
     }
     if (year) {
         where.year = year;
+    }
+    if (category) {
+        where.category = category.toLowerCase();
+    }
+    if (country) {
+        where.country = country.toLowerCase();
     }
     if (where) {
         filter.where = where;
     }
 
-
-    // Movie.find({'category.name': 'Phim hai huoc'})
-    //     .populate("country")
-    //     .exec((err, data) => {
-    //         if (err) return res.status(500).json(err);
-    //         res.json(data);
-    //     })
-
-
-    Movie.find({})
-    .populate("category")
-    .populate("country")
-    .exec((err, data) => {
-        if (err) return res.status(500).json(err);
-        res.json(data);
+    Movie.find(filter.where, (err, user) => {
+        if (err) {
+            if (err) return res.status(500).json(err);
+        }
+        else {
+            res.json(user);
+        }
     })
 }
 
@@ -73,7 +68,7 @@ exports.create = function (req, res, next) {
             return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
         }
         else {
-            Movie.save(movie, (err, movie) => {
+            Movie.create(movie, (err, movie) => {
                 if (err) return res.status(500).json(err);
                 res.json(movie);
             });
@@ -83,13 +78,10 @@ exports.create = function (req, res, next) {
 
 exports.get = function (req, res, next) {
     let movieId = req.params.id;
-    Movie.findById({ _id: movieId })
-        .populate("category")
-        .populate("country")
-        .exec((err, data) => {
-            if (err) return res.status(500).json(err);
-            res.json(data);
-        })
+    Movie.findById({ _id: movieId }, (err, data) => {
+        if (err) return res.status(500).json(err);
+        res.json(data);
+    })
 }
 
 exports.update = function (req, res, next) {

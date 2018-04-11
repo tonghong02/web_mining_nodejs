@@ -28,10 +28,10 @@ exports.getList = function (req, res, next) {
     let sex = req.query.sex;
 
     if (address) {
-        where.address = address;
+        where.address = address.toLowerCase();
     }
     if (sex) {
-        where.sex = sex;
+        where.sex = sex.toLowerCase();
     }
     if (where) {
         filter.where = where;
