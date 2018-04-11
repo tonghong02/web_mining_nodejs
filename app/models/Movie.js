@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var movieSchema = new mongoose.Schema({
-    title: String,
+    title: { type: String, lowercase: true, trim: true },
     year: String,
     imdb: Number,
     view: {
@@ -22,5 +22,13 @@ var movieSchema = new mongoose.Schema({
     }
 
 });
+
+
+// movieSchema.post('save', function (doc, next) {
+//     doc.populate('Category').execPopulate(function () {
+//         next();
+//     });
+// });
+
 
 module.exports = mongoose.model('Movie', movieSchema);

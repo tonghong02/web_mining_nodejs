@@ -10,18 +10,48 @@ function getMovies(res) {
         .populate("category")
         .populate("country")
         .exec((err, data) => {
-            if(err) return res.status(500).json(err);
+            if (err) return res.status(500).json(err);
             res.json(data);
         })
 }
 
 // = = = = = = = = 
 exports.getList = function (req, res, next) {
+    let where = {};
+    let filter = req.query;
+    let year = req.query.year;
+    let imdb = req.query.imdb;
+    let title = req.query.title;
+    let country = req.query.country;
+    let category = req.query.category;
+
+    if (imdb) {
+        where.imdb = imdb;
+    }
+    if (title) {
+        where.title = title;
+    }
+    if (year) {
+        where.year = year;
+    }
+    if (where) {
+        filter.where = where;
+    }
+
+
+    // Movie.find({'category.name': 'Phim hai huoc'})
+    //     .populate("country")
+    //     .exec((err, data) => {
+    //         if (err) return res.status(500).json(err);
+    //         res.json(data);
+    //     })
+
+
     Movie.find({})
     .populate("category")
     .populate("country")
     .exec((err, data) => {
-        if(err) return res.status(500).json(err);
+        if (err) return res.status(500).json(err);
         res.json(data);
     })
 }
@@ -43,7 +73,7 @@ exports.create = function (req, res, next) {
             return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
         }
         else {
-            Movie.create(movie, (err, movie) => {
+            Movie.save(movie, (err, movie) => {
                 if (err) return res.status(500).json(err);
                 res.json(movie);
             });
@@ -54,12 +84,12 @@ exports.create = function (req, res, next) {
 exports.get = function (req, res, next) {
     let movieId = req.params.id;
     Movie.findById({ _id: movieId })
-    .populate("category")
-    .populate("country")
-    .exec((err, data) => {
-        if(err) return res.status(500).json(err);
-        res.json(data);
-    })
+        .populate("category")
+        .populate("country")
+        .exec((err, data) => {
+            if (err) return res.status(500).json(err);
+            res.json(data);
+        })
 }
 
 exports.update = function (req, res, next) {

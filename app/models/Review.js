@@ -18,7 +18,7 @@ var reviewSchema = new mongoose.Schema({
         default: 5,
         required: true
     },
-    content: String
+    content: { type: String, lowercase: true, trim: true }
 
 });
 

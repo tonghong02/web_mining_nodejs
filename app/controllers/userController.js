@@ -22,7 +22,22 @@ function generateHash(password) {
 
 // = = = = = = = = 
 exports.getList = function (req, res, next) {
-    User.find((err, user) => {
+    let where = {};
+    let filter = req.query;
+    let address = req.query.address;
+    let sex = req.query.sex;
+
+    if (address) {
+        where.address = address;
+    }
+    if (sex) {
+        where.sex = sex;
+    }
+    if (where) {
+        filter.where = where;
+    }
+
+    User.find(filter.where, (err, user) => {
         if (err) {
             if (err) return res.status(500).json(err);
         }

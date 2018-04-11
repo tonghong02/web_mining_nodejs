@@ -24,26 +24,26 @@ exports.getList = function (req, res, next) {
         })
 }
 
-// exports.create = function (req, res, next) {
-//     let param = {
-//         movie: req.body.movie,
-//         user: req.body.user
-//     };
-//     let history = new Historyy(param);
+exports.create = function (req, res, next) {
+    let param = {
+        movie: req.body.movie,
+        user: req.body.user
+    };
+    let history = new Historyy(param);
 
-//     Historyy.findOne({ title: req.body.title }, (err, data) => {
-//         if (err) return res.status(500).json(err);
-//         if (data) {
-//             return res.json({ err: "NAME history IS ALREADY EXISTS!" })
-//         }
-//         else {
-//             Historyy.create(history, (err, history) => {
-//                 if (err) return res.status(500).json(err);
-//                 res.json(history);
-//             });
-//         }
-//     })
-// }
+    Historyy.findOne({ movie: req.body.movie, user: req.body.user }, (err, data) => {
+        if (err) return res.status(500).json(err);
+        if (data) {
+            return res.json({ err: "MOVIE AND USER IS ALREADY EXISTS!" })
+        }
+        else {
+            Historyy.create(history, (err, history) => {
+                if (err) return res.status(500).json(err);
+                res.json(history);
+            });
+        }
+    })
+}
 
 exports.get = function (req, res, next) {
     let historyId = req.params.id;
@@ -56,32 +56,27 @@ exports.get = function (req, res, next) {
         })
 }
 
-// exports.update = function (req, res, next) {
-//     let historyId = req.params.id;
+// can xem lai
+exports.update = function (req, res, next) {
+    let historyId = req.params.id;
 
-//     let param = {
-//         movie: req.body.movie,
-//         user: req.body.user
-//     };
+    let param = {
+        movie: req.body.movie,
+        user: req.body.user
+    };
 
-//     Historyy.findById({ _id: historyId }, (err, history) => {
-//         if (err) return res.status(500).json(err);
-//         if (!history) {
-//             return res.json({ err: "HISTORY IS NOT FOUND!" })
-//         }
-//         Historyy.findOne({ title: param.title }, (err, history) => {
-//             if (err) return res.status(500).json(err);
-//             if (history) {
-//                 return res.json({ err: "NAME history IS ALREADY EXISTS!" })
-//             }
-//             Historyy.update({ _id: historyId }, param, (err, data) => {
-//                 if (err) return res.status(500).json(err);
-//                 // res.json(data);
-//                 getHistories(res);
-//             })
-//         })
-//     })
-// }
+    Historyy.findById({ _id: historyId }, (err, history) => {
+        if (err) return res.status(500).json(err);
+        if (!history) {
+            return res.json({ err: "HISTORY IS NOT FOUND!" })
+        }
+
+        Historyy.update({ _id: historyId }, param, (err, data) => {
+            if (err) return res.status(500).json(err);
+            getHistories(res);
+        })
+    })
+}
 
 exports.remove = function (req, res, next) {
     let historyId = req.params.id;
@@ -90,5 +85,4 @@ exports.remove = function (req, res, next) {
         if (err) return res.status(500).json(err);
         res.json(data);
     })
-
 }
