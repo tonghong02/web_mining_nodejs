@@ -24,6 +24,7 @@ exports.login = function (req, res, next) {
                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
             } else {
                 const payload = {
+                    _id: user._id,
                     email: user.email,
                     name: user.name,
                     username: user.username,
@@ -31,9 +32,8 @@ exports.login = function (req, res, next) {
                     address: user.address,
                     birth: user.birth
                 };
-                var token = jwt.sign(payload, app.get('superSecret'), {
-                    expiresIn: 60 * 60 * 24 // 1 day
-                });
+                    // expiresIn: 60 * 60 * 24 // 1 day
+                var token = jwt.sign(payload, app.get('superSecret'));
 
                 res.json({
                     success: true,

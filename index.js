@@ -1,11 +1,15 @@
+var cors = require('cors');
 var express = require('express');
 var app = express();
+app.use(cors());
+app.options('*', cors());
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/database.js'); // get our config file
+
 
 var Test = require('./app/models/Test');
 var User = require('./app/models/User');
@@ -20,7 +24,6 @@ var countryRoute = require("./app/routes/countryRoute");
 var Category = require('./app/models/Category');
 var categoryController = require("./app/controllers/categoryController");
 var categoryRoute = require("./app/routes/categoryRoute");
-
 
 var userController = require("./app/controllers/userController");
 var userRoute = require("./app/routes/userRoute");
@@ -40,14 +43,16 @@ var reviewRoute = require("./app/routes/reviewRoute");
 // =======================
 // configuration =========
 // =======================
-var port = process.env.PORT || 3000; // used to create, sign, and verify tokens
+var port = process.env.PORT || 3000; 
 
 mongoose.connect(config.url).then(() => {
     console.log("connected db 'recommendation-movie-system' success!!!");
 }, err => {
     console.log("connected db fail!!!");
 });
-// app.set('superSecret', config.secret); // secret variable
+
+
+app.set('superSecret', config.secret); // secret variable
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -58,14 +63,70 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     next();
 });
+app.post('/api/login', authenticateController.login)
+
+// app.post('/api/login', (req, res, next) => {
+// 	User.findOne({
+//         username: req.body.username
+//     }, (err, user) => {
+//         if (err) return res.status(500).json(err);
+//         if (!user) {
+//             res.json({ success: false, message: 'Authentication failed. User not found.' });
+//         }
+//         else if (user) {
+//             if (!user.validPassword(req.body.password)) {
+//                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+//             } else {
+//                 const payload = {
+//                     email: user.email,
+//                     name: user.name,
+//                     username: user.username,
+//                     sex: user.sex,
+//                     address: user.address,
+//                     birth: user.birth
+//                 };
+//                 var token = jwt.sign(payload, app.get('superSecret'), {
+//                     expiresIn: 60 * 60 * 24 * 2 // 2 day
+//                 });
+
+//                 res.json({
+//                     success: true,
+//                     user: payload,
+//                     message: 'Enjoy your token!',
+//                     token: token,
+//                 });
+//             }
+//         }
+//     });
+// })
+
+app.get('/api/user', userController.getList);
+app.get('/api/user/:id', userController.get);
+app.post('/api/user', userController.create)
+
+app.get('/api/review', reviewController.getList);
+app.get('/api/review/:id', reviewController.get);
+
+app.get('/api/movie', movieController.getList);
+app.get('/api/movie/search', movieController.search);
+app.get('/api/movie/:id', movieController.get);
+
+app.get('/api/history', historyController.getList);
+app.get('/api/history/:id', historyController.get);
+
+app.get('/api/country', countryController.getList);
+app.get('/api/country/:id', countryController.get);
+
+app.get('/api/category', categoryController.getList);
+app.get('/api/category/:id', categoryController.get);
+
+app.use(authenticateController.authenticate);
 
 // test basic route
 app.get('/', function (req, res) {
     res.send('Hello! The API is at http://localhost:' + port + '/api');
 });
 
-// authenticate route have to first use!!
-app.use('/api', authenticateRoute);
 app.use('/api', countryRoute);
 app.use('/api', categoryRoute);
 app.use('/api', userRoute);
