@@ -15,7 +15,21 @@ function getReviews(res) {
 
 // = = = = = = = = 
 exports.getList = function (req, res, next) {
-    Review.find({})
+    let where = {};
+    let filter = req.query;
+    let movie = req.query.movie;
+    let user = req.query.user;
+
+    if (movie) {
+        where.movie = movie.toLowerCase();
+    }
+    if (user) {
+        where.user = user.toLowerCase();
+    }
+    if (where) {
+        filter.where = where;
+    }
+    Review.find(filter.where)
         .populate("user")
         .populate("movie")
         .exec((err, data) => {
@@ -36,11 +50,7 @@ exports.create = function (req, res, next) {
 
     Review.find({ user: req.body.user, movie: req.body.movie }, (err, data) => {
         if (err) return res.status(500).json(err);
-        if (data) {
-            // Review.update({ user: req.body.user }, param, (err, data) => {
-            //     if (err) return res.status(500).json(err);
-            //     getReviews(res);
-            // })
+        if (data.length !== 0) {
             return res.json({ err: "USER AND MOVIE IS ALREADY EXIST" })
         }
         else {

@@ -43,7 +43,7 @@ var reviewRoute = require("./app/routes/reviewRoute");
 // =======================
 // configuration =========
 // =======================
-var port = process.env.PORT || 3000; 
+var port = process.env.PORT || 3000;
 
 mongoose.connect(config.url).then(() => {
     console.log("connected db 'recommendation-movie-system' success!!!");

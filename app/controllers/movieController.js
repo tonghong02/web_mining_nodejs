@@ -13,10 +13,10 @@ function getMovies(res) {
 }
 
 // = = = = = = = = 
-exports.search = function (req, res, next){
+exports.search = function (req, res, next) {
     let title = req.query.title.toLowerCase();
 
-    Movie.find({ title : { '$regex' : title, '$options' : 'i' } }, function (err, movies) {
+    Movie.find({ title: { '$regex': title, '$options': 'i' } }, function (err, movies) {
         if (err) {
             throw err;
         }
@@ -52,7 +52,7 @@ exports.getList = function (req, res, next) {
     if (country) {
         where.country = country.toLowerCase();
     }
-     if (type) {
+    if (type) {
         where.type = type.toLowerCase();
     }
     if (where) {
@@ -77,9 +77,10 @@ exports.create = function (req, res, next) {
         view: req.body.view,
         category: req.body.category,
         country: req.body.country,
-        intro:  req.body.intro,
+        intro: req.body.intro,
         type: req.body.type,
         rate: req.body.rate,
+        duration: req.body.duration,
     };
     let movie = new Movie(param);
 
@@ -115,9 +116,10 @@ exports.update = function (req, res, next) {
         view: req.body.view,
         category: req.body.category,
         country: req.body.country,
-        intro:  req.body.intro,
+        intro: req.body.intro,
         type: req.body.type,
         rate: req.body.rate,
+        duration: req.body.duration,
     };
 
     Movie.findById({ _id: movieId }, (err, movie) => {

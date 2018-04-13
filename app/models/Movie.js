@@ -12,30 +12,9 @@ var movieSchema = new mongoose.Schema({
     },
     intro: String,
     rate: Number,
+    duration: Number,
     country: { type: String, lowercase: true, trim: true },
     category: { type: String, lowercase: true, trim: true },
-
-    // category: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Category',
-    //     trim: true,
-    //     required: true
-    // },
-    // country: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Country',
-    //     trim: true,
-    //     required: true
-    // }
-
 });
-
-
-// movieSchema.post('save', function (doc, next) {
-//     doc.populate('Category').execPopulate(function () {
-//         next();
-//     });
-// });
-
 
 module.exports = mongoose.model('Movie', movieSchema);
