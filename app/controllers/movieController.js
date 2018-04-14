@@ -127,17 +127,23 @@ exports.update = function (req, res, next) {
         if (!movie) {
             return res.json({ err: "MOVIE IS NOT FOUND!" })
         }
-        Movie.findOne({ title: param.title }, (err, movie) => {
-            if (err) return res.status(500).json(err);
-            if (movie) {
-                return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
-            }
-            Movie.update({ _id: movieId }, param, (err, data) => {
+        // Movie.findOne({ title: param.title }, (err, movie) => {
+        //     if (err) return res.status(500).json(err);
+        //     if (movie) {
+        //         return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
+        //     }
+        //     Movie.update({ _id: movieId }, param, (err, data) => {
+        //         if (err) return res.status(500).json(err);
+        //         // res.json(data);
+        //         getMovies(res);
+        //     })
+        // })
+
+         Movie.update({ _id: movieId }, param, (err, data) => {
                 if (err) return res.status(500).json(err);
                 // res.json(data);
                 getMovies(res);
             })
-        })
     })
 }
 

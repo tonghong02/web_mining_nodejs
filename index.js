@@ -65,47 +65,13 @@ app.use(function (req, res, next) {
 });
 app.post('/api/login', authenticateController.login)
 
-// app.post('/api/login', (req, res, next) => {
-// 	User.findOne({
-//         username: req.body.username
-//     }, (err, user) => {
-//         if (err) return res.status(500).json(err);
-//         if (!user) {
-//             res.json({ success: false, message: 'Authentication failed. User not found.' });
-//         }
-//         else if (user) {
-//             if (!user.validPassword(req.body.password)) {
-//                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-//             } else {
-//                 const payload = {
-//                     email: user.email,
-//                     name: user.name,
-//                     username: user.username,
-//                     sex: user.sex,
-//                     address: user.address,
-//                     birth: user.birth
-//                 };
-//                 var token = jwt.sign(payload, app.get('superSecret'), {
-//                     expiresIn: 60 * 60 * 24 * 2 // 2 day
-//                 });
-
-//                 res.json({
-//                     success: true,
-//                     user: payload,
-//                     message: 'Enjoy your token!',
-//                     token: token,
-//                 });
-//             }
-//         }
-//     });
-// })
-
 app.get('/api/user', userController.getList);
 app.get('/api/user/:id', userController.get);
 app.post('/api/user', userController.create)
 
 app.get('/api/review', reviewController.getList);
 app.get('/api/review/:id', reviewController.get);
+app.get('/api/review/find/:user/:movie', reviewController.findUserMovie);
 
 app.get('/api/movie', movieController.getList);
 app.get('/api/movie/search', movieController.search);

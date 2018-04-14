@@ -14,6 +14,15 @@ function getReviews(res) {
 }
 
 // = = = = = = = = 
+exports.findUserMovie = function(req, res, next){
+    Review.findOne({ user: req.params.user, movie: req.params.movie }, (err, data) => {
+        if (err) return res.status(500).json(err);
+        else if(!data) return res.json({err: "Not found user"});
+
+        res.json(data);
+    })
+}
+
 exports.getList = function (req, res, next) {
     let where = {};
     let filter = req.query;
@@ -47,19 +56,23 @@ exports.create = function (req, res, next) {
         content: req.body.content,
     };
     let review = new Review(param);
-
-    Review.find({ user: req.body.user, movie: req.body.movie }, (err, data) => {
-        if (err) return res.status(500).json(err);
-        if (data.length !== 0) {
-            return res.json({ err: "USER AND MOVIE IS ALREADY EXIST" })
-        }
-        else {
-            Review.create(review, (err, review) => {
+     Review.create(review, (err, review) => {
                 if (err) return res.status(500).json(err);
                 res.json(review);
             });
-        }
-    })
+
+    // Review.find({ user: req.body.user, movie: req.body.movie }, (err, data) => {
+    //     if (err) return res.status(500).json(err);
+    //     if (data.length !== 0) {
+    //         return res.json({ err: "USER AND MOVIE IS ALREADY EXIST" })
+    //     }
+    //     else {
+    //         Review.create(review, (err, review) => {
+    //             if (err) return res.status(500).json(err);
+    //             res.json(review);
+    //         });
+    //     }
+    // })
 }
 
 exports.get = function (req, res, next) {
@@ -90,7 +103,8 @@ exports.update = function (req, res, next) {
         }
         Review.update({ _id: reviewId }, param, (err, data) => {
             if (err) return res.status(500).json(err);
-            getReviews(res);
+            // getReviews(res);
+            res.json(data);
         })
     })
 }
