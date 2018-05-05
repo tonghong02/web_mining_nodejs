@@ -1,0 +1,56 @@
+[
+    {
+        "email": "hong@gmail.com",
+        "password": "123456",
+        "username": "tonghong01",
+        "address": "haha",
+        "name": "hong",
+        "sex": "female",
+        "birth": 1996
+    },
+    {
+        "email": "hong@gmail.com",
+        "password": "123456",
+        "username": "tonghong02",
+        "address": "haha",
+        "name": "hong",
+        "sex": "female",
+        "birth": 1996
+    },
+    {
+        "email": "hong@gmail.com",
+        "password": "123456",
+        "username": "tonghong03",
+        "address": "haha",
+        "name": "hong",
+        "sex": "female",
+        "birth": 1996
+    },
+    {
+        "email": "hong@gmail.com",
+        "password": "123456",
+        "username": "tonghong04",
+        "address": "haha",
+        "name": "hong",
+        "sex": "female",
+        "birth": 1996
+    },
+    {
+        "email": "hong@gmail.com",
+        "password": "123456",
+        "username": "tonghong05",
+        "address": "haha",
+        "name": "hong",
+        "sex": "female",
+        "birth": 1996
+    },
+    {
+        "email": "hong@gmail.com",
+        "password": "123456",
+        "username": "tonghong06",
+        "address": "haha",
+        "name": "hong",
+        "sex": "female",
+        "birth": 1996
+    }
+]
