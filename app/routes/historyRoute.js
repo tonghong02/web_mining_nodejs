@@ -6,9 +6,9 @@ var router = express.Router();
 var historyController = require('../controllers/historyController')
 
 router.get('/history', historyController.getList);
-// router.post('/history', historyController.create );
+router.post('/history', historyController.create );
 router.get('/history/:id', historyController.get);
-// router.put('/history/:id', historyController.update);
+router.put('/history/:id', historyController.update);
 router.delete('/history/:id', historyController.remove);
 
 module.exports = router;

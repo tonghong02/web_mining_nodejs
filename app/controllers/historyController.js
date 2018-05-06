@@ -15,7 +15,21 @@ function getHistories(res) {
 
 // = = = = = = = = 
 exports.getList = function (req, res, next) {
-    Historyy.find({})
+    let where = {};
+    let filter = req.query;
+    let movie = req.query.movie;
+    let user = req.query.user;
+
+    if (movie) {
+        where.movie = movie.toLowerCase();
+    }
+    if (user) {
+        where.user = user.toLowerCase();
+    }
+    if (where) {
+        filter.where = where;
+    }
+    Historyy.find(filter.where)
         .populate("movie")
         .populate("user")
         .exec((err, data) => {
