@@ -139,11 +139,11 @@ exports.update = function (req, res, next) {
         //     })
         // })
 
-         Movie.update({ _id: movieId }, param, (err, data) => {
-                if (err) return res.status(500).json(err);
-                // res.json(data);
-                getMovies(res);
-            })
+        Movie.update({ _id: movieId }, param, (err, data) => {
+            if (err) return res.status(500).json(err);
+            res.json(data);
+            // getMovies(res);
+        })
     })
 }
 
