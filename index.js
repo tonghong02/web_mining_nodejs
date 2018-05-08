@@ -11,7 +11,7 @@ var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var config = require('./config/database.js'); // get our config file
 
 
-var Test = require('./app/models/Test');
+var Movie = require('./app/models/Movie');
 var User = require('./app/models/User');
 
 var authenticateController = require("./app/controllers/authenticateController");
@@ -67,20 +67,20 @@ app.use(function (req, res, next) {
 // =======================
 // import data from json file 
 // =======================
-// const fs = require('fs');
+const fs = require('fs');
 // var bcrypt = require('bcrypt-nodejs');
 // function generateHash(password) {
 //     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 // }
 
-// let rawdata = fs.readFileSync('user.json');  
+// let rawdata = fs.readFileSync('fullMovieInfo.json');  
 // let student = JSON.parse(rawdata); 
 // for(let i = 0; i < student.length; i++){
-//     let user = new User(student[i]);
-//     user.password = generateHash(student[i].password)
+//     let user = new Movie(student[i]);
+//     // user.password = generateHash(student[i].password)
 //     console.log("studen " + (i + 1));
 //     // console.log(student[i]);
-//     User.create(user, (err, userr) => {
+//     Movie.create(user, (err, userr) => {
 //         console.log(userr)
 //     });
 // } 

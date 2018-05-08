@@ -14,10 +14,10 @@ function getReviews(res) {
 }
 
 // = = = = = = = = 
-exports.findUserMovie = function(req, res, next){
+exports.findUserMovie = function (req, res, next) {
     Review.findOne({ user: req.params.user, movie: req.params.movie }, (err, data) => {
         if (err) return res.status(500).json(err);
-        else if(!data) return res.json({err: "Not found user"});
+        else if (!data) return res.json({ err: "Not found user" });
 
         res.json(data);
     })
@@ -56,10 +56,10 @@ exports.create = function (req, res, next) {
         content: req.body.content,
     };
     let review = new Review(param);
-     Review.create(review, (err, review) => {
-                if (err) return res.status(500).json(err);
-                res.json(review);
-            });
+    Review.create(review, (err, review) => {
+        if (err) return res.status(500).json(err);
+        res.json(review);
+    });
 
     // Review.find({ user: req.body.user, movie: req.body.movie }, (err, data) => {
     //     if (err) return res.status(500).json(err);

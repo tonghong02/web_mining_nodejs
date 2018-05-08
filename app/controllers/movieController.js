@@ -35,7 +35,6 @@ exports.getList = function (req, res, next) {
     let title = req.query.title;
     let country = req.query.country;
     let category = req.query.category;
-    let type = req.query.type;
 
     if (imdb) {
         where.imdb = imdb;
@@ -51,9 +50,6 @@ exports.getList = function (req, res, next) {
     }
     if (country) {
         where.country = country.toLowerCase();
-    }
-    if (type) {
-        where.type = type.toLowerCase();
     }
     if (where) {
         filter.where = where;
