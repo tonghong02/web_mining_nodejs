@@ -6,7 +6,7 @@ var Review = require('../models/Review')
 function getReviews(res) {
     Review.find({})
         .populate("user")
-        .populate("movie")
+        // .populate("movie")
         .exec((err, data) => {
             if (err) return res.status(500).json(err);
             res.json(data);
@@ -40,7 +40,7 @@ exports.getList = function (req, res, next) {
     }
     Review.find(filter.where)
         .populate("user")
-        .populate("movie")
+        // .populate("movie")
         .exec((err, data) => {
             if (err) return res.status(500).json(err);
             res.json(data);
@@ -79,7 +79,7 @@ exports.get = function (req, res, next) {
     let reviewId = req.params.id;
     Review.findById({ _id: reviewId })
         .populate("user")
-        .populate("movie")
+        // .populate("movie")
         .exec((err, data) => {
             if (err) return res.status(500).json(err);
             res.json(data);

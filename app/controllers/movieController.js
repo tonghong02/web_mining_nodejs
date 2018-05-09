@@ -14,9 +14,17 @@ function getMovies(res) {
 
 // = = = = = = = = 
 exports.search = function (req, res, next) {
-    let title = req.query.title.toLowerCase();
+    let search = req.query.search.toLowerCase();
+    let filter = {
+        find: []
+    }
+    if (search) {
+        filter.find.push({ country: new RegExp(search, 'i') });
+        filter.find.push({ title: new RegExp(search, 'i') });
+        filter.find.push({ year: new RegExp(search, 'i') });
+    }
 
-    Movie.find({ title: { '$regex': title, '$options': 'i' } }, function (err, movies) {
+    Movie.find({$or:filter.find}, function (err, movies) {
         if (err) {
             throw err;
         }
@@ -27,6 +35,16 @@ exports.search = function (req, res, next) {
     });
 }
 
+exports.topIMDB = function (req, res, next) {
+    Movie.find({imdb: {$gt: "7.5"}}, (err, user) => {
+        if (err) {
+            if (err) return res.status(500).json(err);
+        }
+        else {
+            res.json(user);
+        }
+    })
+}
 exports.getList = function (req, res, next) {
     let where = {};
     let filter = req.query;
@@ -95,8 +113,13 @@ exports.create = function (req, res, next) {
 }
 
 exports.get = function (req, res, next) {
-    let movieId = req.params.id;
-    Movie.findById({ _id: movieId }, (err, data) => {
+    // let movieId = req.params.id;
+    // Movie.findById({ _id: movieId }, (err, data) => {
+    //     if (err) return res.status(500).json(err);
+    //     res.json(data);
+    // })
+    let titleMovie = req.params.title;
+    Movie.find({ "engTitle": titleMovie }, (err, data) => {
         if (err) return res.status(500).json(err);
         res.json(data);
     })

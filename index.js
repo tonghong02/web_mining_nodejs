@@ -98,7 +98,8 @@ app.get('/api/review/find/:user/:movie', reviewController.findUserMovie);
 
 app.get('/api/movie', movieController.getList);
 app.get('/api/movie/search', movieController.search);
-app.get('/api/movie/:id', movieController.get);
+app.get('/api/movie/top_imdb', movieController.topIMDB);
+app.get('/api/movie/:title', movieController.get);
 
 app.get('/api/history', historyController.getList);
 app.get('/api/history/:id', historyController.get);
