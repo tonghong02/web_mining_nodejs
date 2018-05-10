@@ -7,12 +7,12 @@ var reviewSchema = new mongoose.Schema({
         trim: true,
         required: true
     },
-    // movie: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Movie',
-    //     trim: true,
-    //     required: true
-    // },
+    idMovie: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie',
+        trim: true,
+        required: true
+    },
     movie: {
         type: String, trim: true
     },

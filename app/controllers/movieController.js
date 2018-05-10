@@ -24,7 +24,7 @@ exports.search = function (req, res, next) {
         filter.find.push({ year: new RegExp(search, 'i') });
     }
 
-    Movie.find({$or:filter.find}, function (err, movies) {
+    Movie.find({ $or: filter.find }, function (err, movies) {
         if (err) {
             throw err;
         }
@@ -36,7 +36,7 @@ exports.search = function (req, res, next) {
 }
 
 exports.topIMDB = function (req, res, next) {
-    Movie.find({imdb: {$gt: "7.5"}}, (err, user) => {
+    Movie.find({ imdb: { $gt: "7.5" } }, (err, user) => {
         if (err) {
             if (err) return res.status(500).json(err);
         }
@@ -89,18 +89,19 @@ exports.create = function (req, res, next) {
         year: req.body.year,
         imdb: req.body.imdb,
         view: req.body.view,
+        content: req.body.content,
         category: req.body.category,
         country: req.body.country,
-        intro: req.body.intro,
-        type: req.body.type,
         rate: req.body.rate,
-        duration: req.body.duration,
+        engTitle: req.body.engTitle,
+        linkPhim: req.body.linkPhim,
+        linkBackgrounds: req.body.linkBackgrounds,
+        engTitle: req.body.linkWatch,
     };
     let movie = new Movie(param);
-
-    Movie.findOne({ title: req.body.title }, (err, data) => {
+    Movie.find({ engTitle: req.body.engTitle }, (err, data) => {
         if (err) return res.status(500).json(err);
-        if (data) {
+        if (data.length > 0) {
             return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
         }
         else {
@@ -110,6 +111,19 @@ exports.create = function (req, res, next) {
             });
         }
     })
+
+    // Movie.findOne({ title: req.body.title }, (err, data) => {
+    //     if (err) return res.status(500).json(err);
+    //     if (data) {
+    //         return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
+    //     }
+    //     else {
+    //         Movie.create(movie, (err, movie) => {
+    //             if (err) return res.status(500).json(err);
+    //             res.json(movie);
+    //         });
+    //     }
+    // })
 }
 
 exports.get = function (req, res, next) {
@@ -133,37 +147,36 @@ exports.update = function (req, res, next) {
         year: req.body.year,
         imdb: req.body.imdb,
         view: req.body.view,
+        content: req.body.content,
         category: req.body.category,
         country: req.body.country,
-        intro: req.body.intro,
-        type: req.body.type,
         rate: req.body.rate,
-        duration: req.body.duration,
+        engTitle: req.body.engTitle,
+        linkPhim: req.body.linkPhim,
+        linkBackgrounds: req.body.linkBackgrounds,
+        engTitle: req.body.linkWatch,
     };
-
-    Movie.findById({ _id: movieId }, (err, movie) => {
+    Movie.findOne({ title: param.title }, (err, movie) => {
         if (err) return res.status(500).json(err);
-        if (!movie) {
-            return res.json({ err: "MOVIE IS NOT FOUND!" })
+        if (movie) {
+            return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
         }
-        // Movie.findOne({ title: param.title }, (err, movie) => {
-        //     if (err) return res.status(500).json(err);
-        //     if (movie) {
-        //         return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
-        //     }
-        //     Movie.update({ _id: movieId }, param, (err, data) => {
-        //         if (err) return res.status(500).json(err);
-        //         // res.json(data);
-        //         getMovies(res);
-        //     })
-        // })
-
         Movie.update({ _id: movieId }, param, (err, data) => {
             if (err) return res.status(500).json(err);
-            res.json(data);
-            // getMovies(res);
+            // res.json(data);
+            getMovies(res);
         })
     })
+    // Movie.findById({ _id: movieId }, (err, movie) => {
+    //     if (err) return res.status(500).json(err);
+    //     if (!movie) {
+    //         return res.json({ err: "MOVIE IS NOT FOUND!" })
+    //     }
+    //     Movie.update({ _id: movieId }, param, (err, data) => {
+    //         if (err) return res.status(500).json(err);
+    //         res.json(data);
+    //     })
+    // })
 }
 
 exports.remove = function (req, res, next) {

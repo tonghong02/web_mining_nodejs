@@ -7,7 +7,7 @@ var reviewController = require('../controllers/reviewController')
 
 router.get('/review', reviewController.getList);
 router.post('/review', reviewController.create);
-router.get('/review/:id', reviewController.get);
+router.get('/review/:movie', reviewController.get);
 router.put('/review/:id', reviewController.update);
 router.delete('/review/:id', reviewController.remove);
 
