@@ -68,19 +68,19 @@ app.use(function (req, res, next) {
 // import data from json file 
 // =======================
 const fs = require('fs');
-// var bcrypt = require('bcrypt-nodejs');
-// function generateHash(password) {
-//     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-// }
+var bcrypt = require('bcrypt-nodejs');
+function generateHash(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+}
 
-// let rawdata = fs.readFileSync('fullMovieInfo.json');  
+// let rawdata = fs.readFileSync('user.json');  
 // let student = JSON.parse(rawdata); 
 // for(let i = 0; i < student.length; i++){
 //     let user = new Movie(student[i]);
 //     // user.password = generateHash(student[i].password)
 //     console.log("studen " + (i + 1));
 //     // console.log(student[i]);
-//     Movie.create(user, (err, userr) => {
+//     User.create(user, (err, userr) => {
 //         console.log(userr)
 //     });
 // } 
