@@ -17,8 +17,7 @@ function getReviews(res) {
 exports.findUserMovie = function (req, res, next) {
     Review.findOne({ user: req.params.user, movie: req.params.movie }, (err, data) => {
         if (err) return res.status(500).json(err);
-        else if (!data) return res.json({ err: "Not found user" });
-
+        // else if (!data) retursn res.json({ err: "Not found user" });
         res.json(data);
     })
 }

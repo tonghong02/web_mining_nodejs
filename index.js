@@ -103,6 +103,7 @@ app.get('/api/movie/:title', movieController.get);
 
 app.get('/api/history', historyController.getList);
 app.get('/api/history/:id', historyController.get);
+app.get('/api/review/find/:user/:titleMovie', historyController.findUserMovie);
 
 app.get('/api/country', countryController.getList);
 app.get('/api/country/:id', countryController.get);
