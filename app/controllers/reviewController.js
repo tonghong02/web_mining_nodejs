@@ -15,11 +15,17 @@ function getReviews(res) {
 
 // = = = = = = = = 
 exports.findUserMovie = function (req, res, next) {
-    Review.findOne({ user: req.params.user, movie: req.params.movie }, (err, data) => {
-        if (err) return res.status(500).json(err);
-        // else if (!data) retursn res.json({ err: "Not found user" });
-        res.json(data);
-    })
+    // Review.findOne({ user: req.params.user, movie: req.params.movie }, (err, data) => {
+    //     if (err) return res.status(500).json(err);
+    //     // else if (!data) retursn res.json({ err: "Not found user" });
+    //     res.json(data);
+    // })
+    Review.findOne({ user: req.params.user, movie: req.params.movie })
+        .populate('user')
+        .exec((err, data) => {
+            if (err) return res.status(500).json(err);
+            res.json(data);
+        })
 }
 
 exports.getList = function (req, res, next) {
