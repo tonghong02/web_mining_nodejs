@@ -46,6 +46,8 @@ exports.findUserMovie = function (req, res, next) {
 exports.arrayReviewByIdUser = function (req, res, next) {
     let arrIdUser = [];
     let arrRate = [];
+    let arrIdMovie = [];
+    let arrTitleMovie = [];
     User.find({}, (err, data) => {
         if (err) return res.status(500).json(err);
         else if (data) {
@@ -56,6 +58,8 @@ exports.arrayReviewByIdUser = function (req, res, next) {
                 else if (reviews.length !== 0) {
                     for (let i = 0; i < data.length; i++) {
                         let rate = [];
+                        let idMovie = [];
+                        let titleMovie = [];
                         for (let j = 0; j < reviews.length; j++) {
                             if (JSON.stringify(data[i]._id) === JSON.stringify(reviews[j].user)) {
                                 // console.log("i = " + i + " - j = " + j)
@@ -63,6 +67,8 @@ exports.arrayReviewByIdUser = function (req, res, next) {
                                 // console.log(data[i]._id);
                                 // for (let k = 0; k < reviews.length; j++) {
                                 rate.push(reviews[j].rate);
+                                idMovie.push(reviews[j].idMovie);
+                                titleMovie.push(reviews[j].movie);
                                 arrIdUser.push(data[i]._id);
                                 // }
                             }
@@ -70,11 +76,15 @@ exports.arrayReviewByIdUser = function (req, res, next) {
                         if (rate.length !== 0) {
                             arrRate.push(rate);
                         }
+                        if (idMovie.length !== 0) {
+                            arrIdMovie.push(idMovie);
+                        }
+                        if (titleMovie.length !== 0) {
+                            arrTitleMovie.push(titleMovie);
+                        }
                     }
-                    console.log(arrIdUser);
-                    console.log(arrRate);
                     return res.json(
-                        { user: arrIdUser, rate: arrRate }
+                        { idUser: arrIdUser, rate: arrRate, idMovie: arrIdMovie, titleMovie: arrTitleMovie }
                     );
                 }
                 return res.json({ err: "NOT USER REVIEW" })
