@@ -95,6 +95,7 @@ app.post('/api/user', userController.create)
 app.get('/api/review', reviewController.getList);
 app.get('/api/review/:id', reviewController.get);
 app.get('/api/review/find/:user/:movie', reviewController.findUserMovie);
+app.get('/api/review/user/rate', reviewController.arrayReviewByIdUser);
 
 app.get('/api/movie', movieController.getList);
 app.get('/api/movie/search', movieController.search);
@@ -103,6 +104,7 @@ app.get('/api/movie/:title', movieController.get);
 
 app.get('/api/history', historyController.getList);
 app.get('/api/history/:id', historyController.get);
+app.get('/api/review/find/:user/:titleMovie', historyController.findUserMovie);
 
 app.get('/api/country', countryController.getList);
 app.get('/api/country/:id', countryController.get);

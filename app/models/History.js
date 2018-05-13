@@ -7,6 +7,7 @@ var historySchema = new mongoose.Schema({
         trim: true,
         required: true
     },
+    titleMovie: { type: String, lowercase: true, trim: true },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

@@ -14,14 +14,26 @@ function getHistories(res) {
 }
 
 // = = = = = = = = 
+exports.findUserMovie = function (req, res, next) {
+    Review.findOne({ user: req.params.user, titleMovie: req.params.titleMovie }, (err, data) => {
+        if (err) return res.status(500).json(err);
+        // else if (!data) retursn res.json({ err: "Not found user" });
+        res.json(data);
+    })
+}
+
 exports.getList = function (req, res, next) {
     let where = {};
     let filter = req.query;
     let movie = req.query.movie;
+    let titleMovie = req.query.titleMovie;
     let user = req.query.user;
 
     if (movie) {
         where.movie = movie.toLowerCase();
+    }
+    if (titleMovie) {
+        where.titleMovie = titleMovieovie.toLowerCase();
     }
     if (user) {
         where.user = user.toLowerCase();
@@ -41,6 +53,7 @@ exports.getList = function (req, res, next) {
 exports.create = function (req, res, next) {
     let param = {
         movie: req.body.movie,
+        titleMovie: req.body.titleMovie,
         user: req.body.user
     };
     let history = new Historyy(param);
@@ -76,6 +89,7 @@ exports.update = function (req, res, next) {
 
     let param = {
         movie: req.body.movie,
+        titleMovie: req.body.titleMovie,
         user: req.body.user
     };
 

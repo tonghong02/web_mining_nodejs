@@ -1,10 +1,8 @@
 var mongoose = require('mongoose');
 
 var movieSchema = new mongoose.Schema({
-    //phim le | phim bo
-    // type: { type: String, lowercase: true, trim: true },
     category: { type: String, lowercase: true, trim: true },
-    content: { type: String, lowercase: true, trim: true },
+    content: { type: String, trim: true },
     imdb: String,
     engTitle: { type: String, lowercase: true, trim: true },
     linkPhim: { type: String, lowercase: true, trim: true },

@@ -21,6 +21,7 @@ exports.search = function (req, res, next) {
     if (search) {
         filter.find.push({ country: new RegExp(search, 'i') });
         filter.find.push({ title: new RegExp(search, 'i') });
+        filter.find.push({ engTitle: new RegExp(search, 'i') });
         filter.find.push({ year: new RegExp(search, 'i') });
     }
 
@@ -169,29 +170,28 @@ exports.update = function (req, res, next) {
         engTitle: req.body.engTitle,
         linkPhim: req.body.linkPhim,
         linkBackgrounds: req.body.linkBackgrounds,
-        engTitle: req.body.linkWatch,
+        linkWatch: req.body.linkWatch,
     };
-    Movie.findOne({ title: param.title }, (err, movie) => {
-        if (err) return res.status(500).json(err);
-        if (movie) {
-            return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
-        }
-        Movie.update({ _id: movieId }, param, (err, data) => {
-            if (err) return res.status(500).json(err);
-            // res.json(data);
-            getMovies(res);
-        })
-    })
-    // Movie.findById({ _id: movieId }, (err, movie) => {
+    // Movie.findOne({ title: param.title }, (err, movie) => {
     //     if (err) return res.status(500).json(err);
-    //     if (!movie) {
-    //         return res.json({ err: "MOVIE IS NOT FOUND!" })
+    //     if (movie) {
+    //         return res.json({ err: "NAME MOVIE IS ALREADY EXISTS!" })
     //     }
     //     Movie.update({ _id: movieId }, param, (err, data) => {
     //         if (err) return res.status(500).json(err);
     //         res.json(data);
     //     })
     // })
+    Movie.findById({ _id: movieId }, (err, movie) => {
+        if (err) return res.status(500).json(err);
+        if (!movie) {
+            return res.json({ err: "MOVIE IS NOT FOUND!" })
+        }
+        Movie.update({ _id: movieId }, param, (err, data) => {
+            if (err) return res.status(500).json(err);
+            res.json(data);
+        })
+    })
 }
 
 exports.remove = function (req, res, next) {

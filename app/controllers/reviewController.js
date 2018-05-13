@@ -2,6 +2,9 @@
 var mongoose = require('mongoose');
 
 var Review = require('../models/Review')
+var User = require('../models/User')
+// var Q = require('q');
+// var async = rewuire('async');
 
 function getReviews(res) {
     Review.find({})
@@ -15,11 +18,78 @@ function getReviews(res) {
 
 // = = = = = = = = 
 exports.findUserMovie = function (req, res, next) {
-    Review.findOne({ user: req.params.user, movie: req.params.movie }, (err, data) => {
-        if (err) return res.status(500).json(err);
-        else if (!data) return res.json({ err: "Not found user" });
+    // Review.findOne({ user: req.params.user, movie: req.params.movie }, (err, data) => {
+    //     if (err) return res.status(500).json(err);
+    //     // else if (!data) retursn res.json({ err: "Not found user" });
+    //     res.json(data);
+    // })
+    Review.findOne({ user: req.params.user, movie: req.params.movie })
+        .populate('user')
+        .exec((err, data) => {
+            if (err) return res.status(500).json(err);
+            res.json(data);
+        })
+}
 
-        res.json(data);
+// exports.findReviewByIdUser = function (req, res, next) {
+//     let idUser = req.params.user;
+//     Review.findById({ user: idUser })
+//         .populate('user')
+//         .populate('idMovie')
+//         .exec((err, data) => {
+//             if (err) return res.status(500).json(err);
+//             res.json(data);
+//         })
+
+// }
+
+exports.arrayReviewByIdUser = function (req, res, next) {
+    let arrIdUser = [];
+    let arrRate = [];
+    let arrIdMovie = [];
+    let arrTitleMovie = [];
+    User.find({}, (err, data) => {
+        if (err) return res.status(500).json(err);
+        else if (data) {
+            console.log("user");
+            // console.log(data);
+            Review.find({}, (err, reviews) => {
+                if (err) return res.status(500).json(err);
+                else if (reviews.length !== 0) {
+                    for (let i = 0; i < data.length; i++) {
+                        let rate = [];
+                        let idMovie = [];
+                        let titleMovie = [];
+                        for (let j = 0; j < reviews.length; j++) {
+                            if (JSON.stringify(data[i]._id) === JSON.stringify(reviews[j].user)) {
+                                // console.log("i = " + i + " - j = " + j)
+                                // console.log(reviews[j].user);
+                                // console.log(data[i]._id);
+                                // for (let k = 0; k < reviews.length; j++) {
+                                rate.push(reviews[j].rate);
+                                idMovie.push(reviews[j].idMovie);
+                                titleMovie.push(reviews[j].movie);
+                                arrIdUser.push(data[i]._id);
+                                // }
+                            }
+                        }
+                        if (rate.length !== 0) {
+                            arrRate.push(rate);
+                        }
+                        if (idMovie.length !== 0) {
+                            arrIdMovie.push(idMovie);
+                        }
+                        if (titleMovie.length !== 0) {
+                            arrTitleMovie.push(titleMovie);
+                        }
+                    }
+                    return res.json(
+                        { idUser: arrIdUser, rate: arrRate, idMovie: arrIdMovie, titleMovie: arrTitleMovie }
+                    );
+                }
+                return res.json({ err: "NOT USER REVIEW" })
+            })
+        }
     })
 }
 
@@ -46,6 +116,7 @@ exports.getList = function (req, res, next) {
             res.json(data);
         })
 }
+
 
 // can xem lai
 exports.create = function (req, res, next) {
