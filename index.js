@@ -73,7 +73,7 @@ function generateHash(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-// let rawdata = fs.readFileSync('user.json');  
+// let rawdata = fs.readFileSync('fullMovieInfo.json');  
 // let student = JSON.parse(rawdata); 
 // for(let i = 0; i < student.length; i++){
 //     let user = new Movie(student[i]);

@@ -49,6 +49,8 @@ exports.getList = function (req, res, next) {
 
 // can xem lai
 exports.create = function (req, res, next) {
+    console.log('req.body.rate' );
+    console.log(req.body.rate);
     let param = {
         user: req.body.user,
         idMovie: req.body.idMovie,
@@ -61,19 +63,7 @@ exports.create = function (req, res, next) {
         if (err) return res.status(500).json(err);
         res.json(review);
     });
-
-    // Review.find({ user: req.body.user, movie: req.body.movie }, (err, data) => {
-    //     if (err) return res.status(500).json(err);
-    //     if (data.length !== 0) {
-    //         return res.json({ err: "USER AND MOVIE IS ALREADY EXIST" })
-    //     }
-    //     else {
-    //         Review.create(review, (err, review) => {
-    //             if (err) return res.status(500).json(err);
-    //             res.json(review);
-    //         });
-    //     }
-    // })
+    
 }
 
 exports.get = function (req, res, next) {
@@ -98,7 +88,7 @@ exports.get = function (req, res, next) {
 
 exports.update = function (req, res, next) {
     let reviewId = req.params.id;
-
+    
     let param = {
         user: req.body.user,
         idMovie: req.body.idMovie,

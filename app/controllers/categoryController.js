@@ -50,11 +50,17 @@ exports.create = function (req, res, next) {
 
 exports.get = function (req, res, next) {
     let categoryId = req.params.id;
-
+    console.log(categoryId);
     Category.findById({ _id: categoryId }, (err, category) => {
         if (err) return res.status(500).json(err);
         if (!category) {
             return res.json({ err: "CATEGORY IS NOT FOUND!" });
+        }
+        console.log("category");
+        console.log(category);
+        for(let i=0 ; i < 5; i++){
+            console.log('1');
+            console.log(i);
         }
         res.json(category);
     })

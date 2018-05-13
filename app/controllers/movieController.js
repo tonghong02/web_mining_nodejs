@@ -4,7 +4,7 @@ var _ = require('lodash');
 var async = require('async');
 
 var Movie = require('../models/Movie')
-
+var jwt = require('jsonwebtoken');
 function getMovies(res) {
     Movie.find({}, (err, data) => {
         if (err) return res.status(500).json(err);
@@ -74,10 +74,25 @@ exports.getList = function (req, res, next) {
     }
 
     Movie.find(filter.where, (err, user) => {
+        
         if (err) {
             if (err) return res.status(500).json(err);
         }
         else {
+            for(let i=0 ; i < 5; i++){
+                console.log('1');
+                console.log(i);
+            }
+            // console.log(user);
+            // listMovie = [];
+            // for(let i=0 ; i<user.length;i++){
+            //     listMovie.append({
+            //         'i':i,
+            //         'view': user[i].view,
+            //         'year': user[i].year
+            //     })
+            // }
+            // console.log(listMovie);
             res.json(user);
         }
     })
