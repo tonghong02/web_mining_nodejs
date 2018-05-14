@@ -48,6 +48,7 @@ exports.arrayReviewByIdUser = function (req, res, next) {
     let arrRate = [];
     let arrIdMovie = [];
     let arrTitleMovie = [];
+    let arrIdUserUnique = [];
     User.find({}, (err, data) => {
         if (err) return res.status(500).json(err);
         else if (data) {
@@ -83,8 +84,11 @@ exports.arrayReviewByIdUser = function (req, res, next) {
                             arrTitleMovie.push(titleMovie);
                         }
                     }
+                    arrIdUserUnique = arrIdUser.filter(function(item, pos) {
+                        return arrIdUser.indexOf(item) == pos;
+                    })
                     return res.json(
-                        { idUser: arrIdUser, rate: arrRate, idMovie: arrIdMovie, titleMovie: arrTitleMovie }
+                        { idUser: arrIdUserUnique, rate: arrRate, idMovie: arrIdMovie, titleMovie: arrTitleMovie }
                     );
                 }
                 return res.json({ err: "NOT USER REVIEW" })
