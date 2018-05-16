@@ -11,7 +11,10 @@ var movieSchema = new mongoose.Schema({
     country: { type: String, lowercase: true, trim: true },
     year: { type: String, lowercase: true, trim: true },
     linkWatch: { type: String, lowercase: true, trim: true },
-    rate: Number,
+    rate: {
+        default: 0,
+        type: Number
+    },
     view: {
         default: 0,
         type: Number

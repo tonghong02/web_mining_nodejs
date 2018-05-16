@@ -11,6 +11,21 @@ function getMovies(res) {
         res.json(data);
     })
 }
+// loa bo nhung bo phim co cung title trong ket qua tra ve
+function removieDuplicateMovie(res) {
+    // xu li trung lap phim
+    var results = [];
+    var titleSeen = {}, titleSeenValue = {};
+    let len = res.length;
+    for (var i = 0, id; i < len; i++) {
+        id = res[i].engTitle;
+        if (titleSeen[id] !== titleSeenValue) {
+            results.push(res[i]);
+            titleSeen[id] = titleSeenValue;
+        }
+    }
+    return results;
+}
 
 // = = = = = = = = 
 exports.search = function (req, res, next) {
@@ -36,16 +51,61 @@ exports.search = function (req, res, next) {
     });
 }
 
+// lay ra nhung phim co imdb lon hon 8.0
 exports.topIMDB = function (req, res, next) {
-    Movie.find({ imdb: { $gt: "7.5" } }, (err, user) => {
+    Movie.find({ imdb: { $gt: "8.0" } }, (err, movies) => {
         if (err) {
             if (err) return res.status(500).json(err);
         }
         else {
-            res.json(user);
+            res.json(removieDuplicateMovie(movies));
         }
     })
 }
+
+// sap xep phim theo thu tu giam dan view
+exports.topView = function (req, res, next) {
+    Movie.find({})
+        .sort({ "view": -1 })
+        .exec((err, movies) => {
+            if (err) return res.status(500).json(err);
+            res.json(removieDuplicateMovie(movies));
+        })
+}
+
+// sap xep phim theo thu tu giam dan rate
+exports.topRate = function (req, res, next) {
+    Movie.find({})
+        .sort({ "rate": -1 })
+        .exec((err, movies) => {
+            res.json(removieDuplicateMovie(movies));
+        })
+}
+
+// sap xep phim theo thu tu giam dan theo tung category (phim_tinh_cam, phim...)
+exports.topViewCategory = function (req, res, next) {
+    let category = req.query.category;
+
+    Movie.find({ category: category })
+        .sort({ "view": -1 })
+        .exec((err, movies) => {
+            res.json(removieDuplicateMovie(movies));
+        })
+}
+
+
+// exports.topRateView = function (req, res, next) {
+//     Movie.aggregate(
+//         [
+//             { $sort: { "view": -1, "rate": -1 } }
+//         ]
+//     ).exec((err, movies) => {
+//         if (err) return res.status(500).json(err);
+//         // res.json(removieDuplicateMovie(movies));
+//         res.json(movies);
+//     })
+// }
+
 exports.getList = function (req, res, next) {
     let where = {};
     let filter = req.query;
@@ -74,12 +134,12 @@ exports.getList = function (req, res, next) {
         filter.where = where;
     }
 
-    Movie.find(filter.where, (err, user) => {
+    Movie.find(filter.where, (err, movies) => {
         if (err) {
             if (err) return res.status(500).json(err);
         }
         else {
-            res.json(user);
+            res.json(removieDuplicateMovie(movies));
         }
     })
 }
