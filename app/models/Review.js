@@ -14,6 +14,7 @@ var reviewSchema = new mongoose.Schema({
         trim: true,
         required: true
     },
+    // title english 
     movie: {
         type: String, trim: true
     },

@@ -99,9 +99,13 @@ app.get('/api/review/user/rate', reviewController.arrayReviewByIdUser);
 
 
 app.get('/api/movie', movieController.getList);
+app.get('/api/movie/top_view', movieController.topView);
+app.get('/api/movie/top_rate', movieController.topRate);
+app.get('/api/movie/top_view_category', movieController.topViewCategory);
 app.get('/api/movie/search', movieController.search);
 app.get('/api/movie/top_imdb', movieController.topIMDB);
 app.get('/api/movie/:title', movieController.get);
+app.put('/api/movie/:id', movieController.update);
 
 app.get('/api/history', historyController.getList);
 app.get('/api/history/:id', historyController.get);
